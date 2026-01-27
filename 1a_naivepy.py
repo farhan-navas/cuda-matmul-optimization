@@ -1,5 +1,4 @@
-import random
-import time
+import numpy as np
 
 def matmul(A, B):
     """naivEST matmul implementation"""
@@ -26,3 +25,8 @@ def strassens_matmul(A, B):
     # it for non-square matrices as well. time complexity is assuming square matrix,
     # time complexity ~O(N^2.81)
     pass 
+
+def numpy_matmul(A, B):
+    """simple numpy implementation to see how fast nump c runs under the hood"""
+    C = np.matmul(A, B)
+    return C

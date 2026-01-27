@@ -1,0 +1,18 @@
+[workspace]
+authors = ["farhan-navas <farhanmnavas@gmail.com>"]
+channels = ["conda-forge", "https://conda.modular.com/max-nightly"]
+name = "cuda-matmul-optimization"
+platforms = ["osx-arm64"]
+version = "0.1.0"
+
+[tasks]
+mojo_naive = "mojo run 1b_naivemojo.mojo"
+py_bench   = "python 1a_naivepy.py"
+cmake_cfg  = "cmake -S . -B build -G Ninja"
+cmake_build= "cmake --build build"
+
+[dependencies]
+numpy = ">=2.4.2,<3"
+cmake = ">=4.2.3,<5"
+ninja = ">=1.13.2,<2"
+mojo = ">=0.26.2.0.dev2026020505,<0.27"
