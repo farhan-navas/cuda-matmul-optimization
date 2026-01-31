@@ -14,7 +14,7 @@ def matmul(A, B):
         for y in range(N):
             res = 0.0
             for z in range(K):
-                res += A[x][z] + B[z][y]
+                res += A[x][z] * B[z][y]
             C[x][y] = res
 
     return C

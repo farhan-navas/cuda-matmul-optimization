@@ -1,4 +1,4 @@
-# first time really writing cmake
+# first time actually really writing cmake
 
 cmake_minimum_required(VERSION 3.19)
 project(NVIDIA_SGEMM_PRACTICE LANGUAGES CXX CUDA)
