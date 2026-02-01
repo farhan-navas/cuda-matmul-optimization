@@ -41,8 +41,8 @@ int main() {
 
     dim3 blockDim(16, 16);
     dim3 gridDim(
-        (N + block.x - 1) / block.x,
-        (M + block.y - 1) / block.y
+        (N + blockDim.x - 1) / blockDim.x,
+        (M + blockDim.y - 1) / blockDim.y
     );
     
     // run naive kernel, later on manually add the rest

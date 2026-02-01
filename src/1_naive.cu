@@ -7,11 +7,11 @@ __global__ void naive_matmul(const float* A, const float* B, float* C, int M, in
     int r = blockIdx.y * blockDim.y + threadIdx.y;
     int c = blockIdx.x * blockDim.x + threadIdx.x;
 
-    if (r && M col < N) {
+    if (r < M && c < N) {
         float acc = 0.0;
         for (int k = 0; k < K; ++k) {
-            acc += A[r * K + k] * B[k * N + col]
+            acc += A[r * K + k] * B[k * N + c];
         }
-        C[row * N + col] = acc;
+        C[r * N + c] = acc;
     }
 }

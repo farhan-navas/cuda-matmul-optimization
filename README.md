@@ -29,7 +29,11 @@ For all of the experiments we will be using an entire A100 80GB GPU, run using:
 $ srun --gpus=a100-80 bash -c "hostname; nvidia-smi"
 
 # to build:
-
+mkdir build
+cd build
+cmake ..
+make -j
+./sgemm
 ```
 
 # Iteration 0

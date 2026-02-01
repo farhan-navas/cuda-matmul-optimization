@@ -7,7 +7,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include(CheckLanguage)
 
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CUDA_ARCHITECTURES 86)
+set(CMAKE_CUDA_ARCHITECTURES 80)
 
 # generate executables individually
 add_executable(sgemm
