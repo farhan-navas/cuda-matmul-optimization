@@ -4,10 +4,10 @@
 #include <iostream>
 #include <vector>
 #include <random>
-#include <1_naive.cuh>
 #include <cuda_runtime.h>
+#include "src/1_naive.cuh"
 
-// min test for naive kernel to 
+// min test for naive kernel
 int main() {
     int size = 512;
 
@@ -39,14 +39,14 @@ int main() {
     cudaMemcpy(d_A, h_A.data(), sizeA, cudaMemcpyHostToDevice);
     cudaMemcpy(d_B, h_B.data(), sizeB, cudaMemcpyHostToDevice);
 
-    dim3 block(16, 16);
-    dim3 grid(
+    dim3 blockDim(16, 16);
+    dim3 gridDim(
         (N + block.x - 1) / block.x,
         (M + block.y - 1) / block.y
     );
     
     // run naive kernel, later on manually add the rest
-    naive_matmul<<<grid, block>>>(d_A, d_B, d_C, M, K, N);
+    naive_matmul<<<gridDim, blockDim>>>(d_A, d_B, d_C, M, K, N);
     cudaDeviceSynchronize();
 
     cudaMemcpy(h_C.data(), d_C, sizeC, cudaMemcpyDeviceToHost);

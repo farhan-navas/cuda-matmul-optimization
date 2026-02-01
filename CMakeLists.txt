@@ -1,28 +1,32 @@
 # first time actually really writing cmake
-
 cmake_minimum_required(VERSION 3.19)
 project(NVIDIA_SGEMM_PRACTICE LANGUAGES CXX CUDA)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-find_package(CUDA REQUIRED)
-
 # ensure cuda is available
 include(CheckLanguage)
-check_language(CUDA)
 
 set(CMAKE_CXX_STANDARD 20)
-set(CUDA_COMPUTE_CAPABILITY 86)
+set(CMAKE_CUDA_ARCHITECTURES 86)
+
+# generate executables individually
+add_executable(sgemm
+    src/1_naive.cu
+    test_script.cu
+)
 
 # in debug mode, add debug symbols to device code
 # this disables most optimizations and kills performance
-add_compile_options("$<$<AND:$<CONFIG:Debug>,$<COMPILE_LANGUAGE:CUDA>>:-G;-src-in-ptx>")
-# add_compile_options("--ptxas-options=-v")
+target_compile_options(sgemm PRIVATE
+    $<$<AND:$<CONFIG:Debug>,$<COMPILE_LANGUAGE:CUDA>>:-G;-src-in-ptx>
+    $<$<COMPILE_LANGUAGE:CUDA>:--ptxas-options=-v>
+)
 
-# Configure header file search paths
-include_directories(${CUDA_INCLUDE_DIRS})
-include_directories(${PROJECT_SOURCE_DIR}/src)
-# Configure the source file path to be compiled
-aux_source_directory(${PROJECT_SOURCE_DIR}/src SRC)
+# configure header file search paths
+target_include_directories(sgemm PRIVATE src)
 
-# generate executable
-# do later
+# for multi-file CUDA kernels
+set_target_properties(sgemm PROPERTIES
+    CUDA_SEPARABLE_COMPILATION ON
+)
+
