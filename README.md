@@ -1,10 +1,9 @@
 # CUDA Matmul Kernel Optimization
 
 For this project, I will be trying to optimize a CUDA matrix multiplication kernel to get to the cuBLAS-level performance.
-
 Each iteration will be in separate files and will have:
 
-- **Implementation**: Kernel optimization and algorithmic improvements
+- **Implementation**: Kernel optimization and algorithmic improvements (in comments)
 - **Performance Profiling**: Detailed timing statistics, memory usage analysis, etc. Done with square matrices for ease of reference
 - **Benchmarking**: Comparison against cuBLAS reference implementation
 
@@ -25,10 +24,11 @@ These are the software and compiler versions used for all CUDA experiments on th
 
 For all of the experiments we will be using an entire A100 80GB GPU, run using:
 
-```
-$ srun -G h100-96 bash -c "hostname; nvidia-smi"
+```bash
+# to enter interactive shell
+$ srun -G h100-96 --pty bash
 
-# to build:
+# to build (ONLY on gpu node itself, not on login node):
 mkdir build
 cd build
 cmake ..
@@ -39,6 +39,13 @@ make -j
 # Iteration 0
 
 For the first iteration, I will just build a baseline naive matrix multiplication in [Python](1a_naivepy.py) and [Mojo](1b_naivemojo.mojo)! I will just measure wall-clock timing and use these numbers to define speedup targets for the subsequent CUDA-focused iterations. Just for fun.
+
+```
+# Results:
+C[0] = 125.263
+Total GPU time elapsed 0.000388288s
+Estimated GFLOPS/s 691.331
+```
 
 # Iteration 1
 

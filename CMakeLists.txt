@@ -1,12 +1,6 @@
 # first time actually really writing cmake
 cmake_minimum_required(VERSION 3.19)
-
-# specifically for NUS GPU cluster as default version is too new
-set(CMAKE_CUDA_HOST_COMPILER /usr/bin/g++-12)
-set(CMAKE_CXX_COMPILER /usr/bin/g++-12)
-set(CMAKE_C_COMPILER /usr/bin/gcc-12)
-
-set(CMAKE_CUDA_ARCHITECTURES 80)
+set(CMAKE_CUDA_ARCHITECTURES 90)
 
 project(NVIDIA_SGEMM_PRACTICE LANGUAGES CXX CUDA)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -36,4 +30,3 @@ target_include_directories(sgemm PRIVATE src)
 set_target_properties(sgemm PROPERTIES
     CUDA_SEPARABLE_COMPILATION ON
 )
-
