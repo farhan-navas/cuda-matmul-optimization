@@ -26,7 +26,7 @@ These are the software and compiler versions used for all CUDA experiments on th
 For all of the experiments we will be using an entire A100 80GB GPU, run using:
 
 ```
-$ srun --gpus=a100-80 bash -c "hostname; nvidia-smi"
+$ srun -G h100-96 bash -c "hostname; nvidia-smi"
 
 # to build:
 mkdir build
@@ -42,4 +42,4 @@ For the first iteration, I will just build a baseline naive matrix multiplicatio
 
 # Iteration 1
 
-First naive CUDA kernel implementation where we just look at correctness, and try our best to make sure everything is running right.
+First naive CUDA kernel implementation where we just look at correctness, and try our best to make sure everything is running right. We also setup a sanity check benchmark script to check for any errors. For this 1st iteration,

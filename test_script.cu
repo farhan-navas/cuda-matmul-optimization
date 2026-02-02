@@ -45,13 +45,30 @@ int main() {
         (M + blockDim.y - 1) / blockDim.y
     );
     
+    // timing code
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+    cudaEventRecord(start);
+
     // run naive kernel, later on manually add the rest
     naive_matmul<<<gridDim, blockDim>>>(d_A, d_B, d_C, M, K, N);
-    cudaDeviceSynchronize();
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
 
     cudaMemcpy(h_C.data(), d_C, sizeC, cudaMemcpyDeviceToHost);
+    float milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+
+    double seconds = milliseconds / 1000.0;
 
     std::cout << "C[0] = " << h_C[0] << std::endl;
+    std::cout << "Total GPU time elapsed " << seconds << "s" << std::endl;
+
+    double flops = 2.0 * M * K * N;
+    double gflops = (flops * 1e-9) / (seconds);
+
+    std::cout << "Estimated GFLOPS/s " << gflops << std::endl;
 
     cudaFree(d_A);
     cudaFree(d_B);
