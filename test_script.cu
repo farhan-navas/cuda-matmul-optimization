@@ -6,6 +6,7 @@
 #include <random>
 #include <cuda_runtime.h>
 #include "src/1_naive.cuh"
+#include "src/2_gmem_coalesce.cuh"
 
 // min test for naive kernel
 int main() {
@@ -46,19 +47,19 @@ int main() {
     );
     
     // timing code
-    cudaEvent_t start, stop;
-    cudaEventCreate(&start);
-    cudaEventCreate(&stop);
-    cudaEventRecord(start);
+    cudaEvent_t start1, stop1;
+    cudaEventCreate(&start1);
+    cudaEventCreate(&stop1);
+    cudaEventRecord(start1);
 
     // run naive kernel, later on manually add the rest
     naive_matmul<<<gridDim, blockDim>>>(d_A, d_B, d_C, M, K, N);
-    cudaEventRecord(stop);
-    cudaEventSynchronize(stop);
+    cudaEventRecord(stop1);
+    cudaEventSynchronize(stop1);
 
     cudaMemcpy(h_C.data(), d_C, sizeC, cudaMemcpyDeviceToHost);
     float milliseconds = 0;
-    cudaEventElapsedTime(&milliseconds, start, stop);
+    cudaEventElapsedTime(&milliseconds, start1, stop1);
 
     double seconds = milliseconds / 1000.0;
 

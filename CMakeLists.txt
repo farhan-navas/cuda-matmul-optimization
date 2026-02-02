@@ -13,6 +13,7 @@ set(CMAKE_CXX_STANDARD 20)
 # generate executables individually
 add_executable(sgemm
     src/1_naive.cu
+    src/2_gmem_coalesce.cu
     test_script.cu
 )
 
